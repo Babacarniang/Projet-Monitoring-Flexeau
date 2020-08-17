@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>OpenStreetMap</title>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+        <!-- CSS -->
+        <style>
+            body{
+                margin:0
+            }
+            #maCarte{
+                height: 100vh;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="maCarte"></div>
+
+        <!-- Fichiers Javascript -->
+        <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
+        <script>
+
+            // On initialise la carte
+        var carte = L.map('maCarte').setView([14.1825000, -16.2533300], 9);
+        var icon_vert = new L.icon({ iconUrl: 'https://i.stack.imgur.com/ga5fM.png' });
+        var icon_jaune = new L.icon({ iconUrl: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FFFF00' });
+        var icon_rouge_claire = new L.icon({ iconUrl: 'https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2%7CFE7569' });
+        var icon_gris = new L.icon({ iconUrl: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|95A595' });
+        var icon_rouge = new L.icon({ iconUrl: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FF0000' });
+        var icon_orange = new L.icon({ iconUrl: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|ED7F10' });
+
+    
+            // On charge les "tuiles"
+            L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+                // Il est toujours bien de laisser le lien vers la source des données
+                attribution: 'données © <a href="//osm.org/copyright">OpenStreetMap</a>/ODbL - rendu <a href="//openstreetmap.fr">OSM France</a>',
+                minZoom: 1,
+                maxZoom: 20
+            }).addTo(carte);
+
+           // Code leaflet permettant d'inserer les marqueurs depuis la base de donnée ?
+            let xmlhttp = new XMLHttpRequest();
+
+            xmlhttp.onreadystatechange = () => {
+                // La transaction est terminée ?
+                if(xmlhttp.readyState == 4){
+                    // Si la transaction est un succès
+                    if(xmlhttp.status == 200){
+                        // On traite les données reçues
+                        let donnees = JSON.parse(xmlhttp.responseText)
+
+
+                        // On boucle sur les données (ES8)
+                              if (!Object.entries)
+                              Object.entries = function( obj ){
+                              var ownProps = Object.keys( obj ),
+                              i = ownProps.length,
+                              resArray = new Array(i); // preallocate the Array
+                              while (i--)
+                              resArray[i] = [ownProps[i], obj[ownProps[i]]];
+                              return resArray;
+                             };
+
+function f (){
+  // alert("ok")
+    Object.entries(donnees.abonnes).forEach(abonnes => {
+    
+    if (abonnes[1].dry==1,abonnes[1].reverse==0,abonnes[1].leak==0){
+    let marker=L.marker([abonnes[1].latitude, abonnes[1].longitude],{icon:icon_jaune,icon:icon_orange,icon:icon_rouge}).addTo(carte)
+
+  marker.bindPopup(abonnes[1].num_abon + +" <br> "+'NUMERO COMPTEUR'+" <br> "+abonnes[1].serial_num + +" <br> "+'NUMERO SERIE'+" <br> "+abonnes[1].forage + +" <br> "+'FORAGE'+" <br> "+abonnes[1].village + +" <br> "+'VILLAGE'+" <br> "+abonnes[1].prenom + +" <br> "+'DATE/HEURE'+" <br> "+abonnes[1].nom + +" <br> "+'PRENOM'+" <br> "+abonnes[1].nci + +" <br> "+'NOM' +" <br> "+abonnes[1].tel + +" <br> "+abonnes[1].volume + +" <br> "+'VOLUME INDEX'+" <br> "+abonnes[1].date_heure + +" <br> "+'DATE/HEURE INDEX'+" <br> "+abonnes[1].dry + +" <br> "+'ALARME dry'+" <br> "+abonnes[1].reverse + +" <br> "+'ALARME reverse'+" <br> "+abonnes[1].leak + +" <br> "+'ALARME leak');
+        }else {
+
+let marker=L.marker([abonnes[1].latitude, abonnes[1].longitude],{icon:icon_vert}).addTo(carte)
+ marker.bindPopup(abonnes[1].num_abon + +" <br> "+'NUMERO COMPTEUR'+" <br> "+abonnes[1].serial_num + +" <br> "+'NUMERO SERIE'+" <br> "+abonnes[1].forage + +" <br> "+'FORAGE'+" <br> "+abonnes[1].village + +" <br> "+'VILLAGE'+" <br> "+abonnes[1].prenom + +" <br> "+'DATE/HEURE'+" <br> "+abonnes[1].nom + +" <br> "+'PRENOM'+" <br> "+abonnes[1].nci + +" <br> "+'NOM' +" <br> "+abonnes[1].tel+" <br> "+abonnes[1].volume + +" <br> "+'VOLUME INDEX'+" <br> "+abonnes[1].date_heure+" <br> "+'DATE/HEURE INDEX'+" <br> "+abonnes[1].dry + +" <br> "+'ALARME dry'+" <br> "+abonnes[1].reverse + +" <br> "+'ALARME reverse'+" <br> "+abonnes[1].leak + +" <br> "+'ALARME leak');
+ //alert('3 secondes');
+            
+        }
+    })
+
+}
+
+var myVar;
+
+function myFunction() {
+  myVar = setInterval(f, 20000);
+}
+
+             // On crée un marqueur pour l'abonné
+            // {SELECT IF dry<1 icon: icon_vert, icon: icon_jaune}
+ myFunction()
+
+ }else{
+console.log(xmlhttp.statusText);
+                    }
+                }
+            }
+
+    xmlhttp.open("GET", "http://localhost/liste.php");      
+    xmlhttp.send(null);
+   
+
+
+        </script>
+    </body>
+</html>
